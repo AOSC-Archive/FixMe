@@ -13,7 +13,7 @@ make
 sudo make install
 ```
 
-## Dependence for MantisBT backend
+## Dependency for MantisBT backend
 
 ### for ArchLinux
 
