@@ -13,6 +13,7 @@ inotifywait -m -r /var/log/journal/
 ```
 make
 ./segfault
+段错误(吐核) :)
 ```
 
 inotifywait shown as below:
