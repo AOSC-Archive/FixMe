@@ -53,6 +53,18 @@ public:
         if (m_j) sd_journal_close(m_j); m_j = NULL;
     }
 
+    int m_retrieve(const void *data, size_t len, const char *name, const char **var) 
+    {                                            
+        size_t ident;                                                              
+        ident = strlen(name) + 1; /* name + "=" */                                 
+        if (len < ident) return 0;                                                          
+        if (memcmp(data, name, ident - 1) != 0) return 0;
+        if (((const char*) data)[ident - 1] != '=') return 0;
+        *var = strndup((const char*)data + ident, len - ident);                    
+        if (!*var) return -1;                                                       
+        return 0;                                                                  
+    }
+
     void dump_list() 
     {
         int count = 0;
@@ -61,11 +73,12 @@ public:
         sd_journal_set_data_threshold(m_j, 4096);
 
         SD_JOURNAL_FOREACH(m_j) {
-            //qDebug() << "DEBUG: " << __PRETTY_FUNCTION__;
+            const char *exe = NULL;
             const void *d;
             size_t l;
             SD_JOURNAL_FOREACH_DATA(m_j, d, l) {
-                qDebug() << "DEBUG: " << d << l;
+                m_retrieve(d, l, "COREDUMP_EXE", &exe);
+                if (exe) qDebug() << "DEBUG: " << d << l << exe;
             }
             count++;
         }
