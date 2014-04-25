@@ -9,4 +9,6 @@ TEMPLATE = app
 
 DEFINES += QT_MOC
 
+LIBS += -lsystemd-journal
+
 SOURCES += qinotify.cpp

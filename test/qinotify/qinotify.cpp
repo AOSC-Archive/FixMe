@@ -19,6 +19,7 @@
 #include <QCoreApplication>
 #include <QFileSystemWatcher>
 #include <QDebug>
+#include <systemd/sd-journal.h>
 
 class MyWorker : public QObject 
 {
@@ -36,9 +37,51 @@ public slots:
     }
 };
 
+class MyJournal : public QObject 
+{
+    Q_OBJECT
+
+public:
+    MyJournal() : m_j(NULL) 
+    {
+        if (sd_journal_open(&m_j, SD_JOURNAL_LOCAL_ONLY) < 0) {
+            qDebug() << "DEBUG: " << __PRETTY_FUNCTION__ << "failed to sd_journal_open";
+        }
+    }
+    ~MyJournal() 
+    {
+        if (m_j) sd_journal_close(m_j); m_j = NULL;
+    }
+
+    void dump_list() 
+    {
+        int count = 0;
+        if (m_j == NULL) return;
+
+        sd_journal_set_data_threshold(m_j, 4096);
+
+        SD_JOURNAL_FOREACH(m_j) {
+            //qDebug() << "DEBUG: " << __PRETTY_FUNCTION__;
+            const void *d;
+            size_t l;
+            SD_JOURNAL_FOREACH_DATA(m_j, d, l) {
+                qDebug() << "DEBUG: " << d << l;
+            }
+            count++;
+        }
+
+        qDebug() << "DEBUG: " << __PRETTY_FUNCTION__ << count;
+    }
+
+private:
+    sd_journal *m_j;
+};
+
 int main(int argc, char *argv[])
 {
     QCoreApplication app(argc, argv);
+    MyJournal jour;
+    jour.dump_list();
     QStringList paths;
     paths.append(argv[1] ? QString(argv[1]) : "/var/log/journal");
     QFileSystemWatcher watcher(paths);
