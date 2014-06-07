@@ -1,0 +1,16 @@
+[Desktop Entry]
+Categories=Qt;System;
+Comment=AnthonOS FixMe Daemon
+Exec=FixMe
+GenericName=AnthonOS FixMe Daemon
+MimeType=
+Name=AnthonOS FixMe Daemon
+Path=
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+X-DBUS-ServiceName=
+X-DBUS-StartupType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=

@@ -1,4 +1,4 @@
-fixme
+FixMe
 =====
 
 Qt5 frontend for MantisBT and other bug tracking system.
@@ -8,17 +8,7 @@ Qt5 frontend for MantisBT and other bug tracking system.
 
 ```
 export QT_SELECT=5
-qmake
+qmake or /usr/lib/qt5/bin/qmake
 make
 sudo make install
-```
-
-## Dependency for MantisBT backend
-
-### for ArchLinux
-
-```
-sudo pacman -S nginx php php-fpm
-sudo systemctl start php-fpm
-sudo systemctl enable php-fpm
 ```
