@@ -24,3 +24,17 @@ make
 sudo make install
 ```
 
+
+## Happy Hacking
+
+```
+./FixMe
+```
+
+open other console
+
+```
+./test/segfault
+```
+
+Then here comes FixMeForm ;)
