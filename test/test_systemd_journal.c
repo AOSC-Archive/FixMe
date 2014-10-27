@@ -13,17 +13,23 @@ int main(int argc, char *argv[])
     struct pollfd fds[1];
     int r = -1, poll_num = -1;
 
+    while (1) {
+
     r = sd_journal_open(&m_j, SD_JOURNAL_LOCAL_ONLY);
     if (r < 0 || m_j == NULL) { 
         printf("ERROR: fail to sd_journal_open\n"); 
         return -1;
     }
 
+    memset(fds, 0, 1);
+
     fds[0].fd = sd_journal_get_fd(m_j);
     fds[0].events = sd_journal_get_events(m_j);
 
     printf("DEBUG: listening for systemd-journal event ...\n");
+
     poll_num = poll(fds, nfds, -1);
+
     if (poll_num == -1) {
         if (errno != EINTR) { 
             printf("ERROR: fail to poll\n");
@@ -65,6 +71,8 @@ int main(int argc, char *argv[])
     /* Mr. Cleanup */
     sd_journal_close(m_j);
     m_j = NULL;
-    
+
+    }
+
     return 0;
 }

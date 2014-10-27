@@ -6,6 +6,12 @@
 #include <QDebug>
 
 #include "qtsingleapplication/QtSingleApplication"
+#include "coredumphook.h"
+
+static void m_coredump_callback() 
+{
+    system("FixMeForm");
+}
 
 int main(int argc, char *argv[])
 {
@@ -14,6 +20,11 @@ int main(int argc, char *argv[])
         qDebug() << "DEBUG: is running... Bye :)";
         return 0;
     }
+    
     qDebug() << "DEBUG: Ctrl+C to quit";
+    
+    CoredumpHook* objCoredumpHook = new CoredumpHook(m_coredump_callback);
+    objCoredumpHook->start();
+
     return app.exec();
 }

@@ -6,9 +6,21 @@ Qt5 frontend for MantisBT and other bug tracking system.
 
 ## Build && Install
 
+
+### FixMe daemon
+
 ```
-export QT_SELECT=5
-qmake or /usr/lib/qt5/bin/qmake
+qmake FixMe.pro
 make
 sudo make install
 ```
+
+
+### FixMe frontend
+
+```
+qmake FixMeForm.pro
+make
+sudo make install
+```
+
